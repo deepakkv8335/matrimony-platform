@@ -94,7 +94,7 @@ async function loadProfile() {
             return;
         }
 
-        alert("Profile updated successfully!");
+        window.location.href = "verification.html";
     });
 
     document.getElementById("logoutBtn").addEventListener("click", async () => {

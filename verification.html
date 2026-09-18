@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Profile Verification • WC Matrimony</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/styles.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+
+<style>
+
+body{
+    background:#f7f2e8;
+    font-family:"Work Sans",sans-serif;
+    margin:0;
+}
+
+.verify-wrap{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:30px;
+}
+
+.verify-card{
+    background:white;
+    max-width:560px;
+    width:100%;
+    border-radius:22px;
+    padding:40px;
+    text-align:center;
+    border:1px solid #e8dfd1;
+}
+
+.verify-icon{
+    font-size:64px;
+}
+
+.verify-card h1{
+    font-family:"Fraunces",serif;
+    color:#4b0f19;
+}
+
+.verify-card p{
+    color:#6f6457;
+}
+
+.status-pill{
+    display:inline-block;
+    margin:20px 0;
+    background:#fff3cd;
+    color:#8a6d3b;
+    padding:10px 18px;
+    border-radius:999px;
+    font-weight:600;
+}
+
+.note{
+    margin-top:25px;
+    font-size:14px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="verify-wrap">
+
+<div class="verify-card">
+
+<div class="verify-icon">🛡️</div>
+
+<h1>We're verifying your profile</h1>
+
+<p>
+Your profile has been submitted successfully.
+Our team usually reviews new profiles within 24 hours.
+</p>
+
+<div class="status-pill" id="statusText">
+Pending Approval
+</div>
+
+<p class="note">
+Once approved, you'll automatically get access to your matches.
+</p>
+
+</div>
+
+</div>
+
+<script src="js/verification.js"></script>
+
+</body>
+</html>

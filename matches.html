@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>My Matches • WC Matrimony</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/styles.css">
+
+<style>
+    .profiles-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:24px;
+margin-top:30px;
+}
+
+.profile-card{
+background:white;
+border-radius:20px;
+padding:18px;
+border:1px solid #e8dfd1;
+}
+
+.profile-card h3{
+margin:16px 0 10px;
+font-family:"Fraunces",serif;
+color:#4b0f19;
+}
+
+.profile-card p{
+margin:6px 0;
+color:#6f6457;
+}
+
+.empty-card{
+background:white;
+padding:40px;
+border-radius:20px;
+text-align:center;
+}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+</head>
+
+<body>
+
+<header class="site-header">
+<div class="wrap header-inner">
+
+<a href="index.html" class="logo">
+WC <span>Matrimony</span>
+</a>
+
+<nav class="main-nav">
+<a href="matches.html">Matches</a>
+<a href="dashboard.html">My Profile</a>
+<a href="admin.html">Admin</a>
+</nav>
+
+</div>
+</header>
+
+<main class="wrap" style="padding:40px 20px;">
+
+<h1 style="font-family:Fraunces;">Your Matches</h1>
+<p>Showing verified members who match your gender preference.</p>
+
+<div id="matchesGrid" class="profiles-grid"></div>
+
+</main>
+
+<script src="js/matches.js"></script>
+
+</body>
+</html>
