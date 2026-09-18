@@ -83,7 +83,7 @@ async function loadMatches() {
 
 function viewProfile(profileId){
 
-    alert("Full profile page coming next.");
+    window.location.href = `profile.html?id=${profileId}`;
 
 }
 
