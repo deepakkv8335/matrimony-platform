@@ -1,3 +1,33 @@
+async function uploadProfilePhoto(userId) {
+
+    const fileInput = document.getElementById("profilePhoto");
+
+    if (!fileInput.files.length) {
+        return null;
+    }
+
+    const file = fileInput.files[0];
+
+    const filePath = `${userId}/${Date.now()}-${file.name}`;
+
+    const { error } = await supabaseClient.storage
+        .from("profile-photos")
+        .upload(filePath, file);
+
+    if (error) {
+        alert(error.message);
+        return null;
+    }
+
+    const { data } = supabaseClient.storage
+        .from("profile-photos")
+        .getPublicUrl(filePath);
+
+    document.getElementById("profilePreview").src = data.publicUrl;
+
+    return data.publicUrl;
+}
+
 async function loadProfile() {
 
     const { data: { user } } = await supabaseClient.auth.getUser();
@@ -28,11 +58,17 @@ async function loadProfile() {
 
         if (data.dob)
             document.getElementById("dob").value = data.dob;
+        if (data.photo_url) {
+            document.getElementById("profilePreview").src = data.photo_url;
+        }
+
     }
 
     document.getElementById("profileForm").addEventListener("submit", async (e) => {
 
         e.preventDefault();
+
+        const photoUrl = await uploadProfilePhoto(user.id);
 
         const { error } = await supabaseClient
             .from("profiles")
@@ -48,7 +84,8 @@ async function loadProfile() {
                 marital_status: document.getElementById("marital_status").value,
                 father_name: document.getElementById("father_name").value,
                 mother_name: document.getElementById("mother_name").value,
-                bio: document.getElementById("bio").value
+                bio: document.getElementById("bio").value,
+                photo_url: photoUrl || data?.photo_url
             })
             .eq("id", user.id);
 
