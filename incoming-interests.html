@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Incoming Interests • WC Matrimony</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/styles.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+
+<style>
+
+body{
+background:#f7f2e8;
+font-family:"Work Sans",sans-serif;
+margin:0;
+}
+
+.page{
+max-width:900px;
+margin:40px auto;
+padding:20px;
+}
+
+h1{
+font-family:"Fraunces",serif;
+color:#4b0f19;
+}
+
+#interestList{
+display:grid;
+gap:20px;
+margin-top:30px;
+}
+
+.interest-card{
+background:white;
+border-radius:20px;
+padding:22px;
+border:1px solid #e8dfd1;
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:20px;
+flex-wrap:wrap;
+}
+
+.actions{
+display:flex;
+gap:10px;
+}
+
+.accept-btn{
+background:#c59b5b;
+color:white;
+border:none;
+padding:12px 20px;
+border-radius:10px;
+cursor:pointer;
+}
+
+.decline-btn{
+background:#8b2c2c;
+color:white;
+border:none;
+padding:12px 20px;
+border-radius:10px;
+cursor:pointer;
+}
+
+.empty{
+background:white;
+padding:35px;
+border-radius:18px;
+text-align:center;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="page">
+
+<h1>Incoming Interests</h1>
+
+<p>People who have expressed interest in your profile.</p>
+
+<div id="interestList"></div>
+
+</div>
+
+<script src="js/incoming-interests.js"></script>
+
+</body>
+</html>
