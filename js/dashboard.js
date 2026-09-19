@@ -7,7 +7,6 @@ async function uploadProfilePhoto(userId) {
     }
 
     const file = fileInput.files[0];
-
     const filePath = `${userId}/${Date.now()}-${file.name}`;
 
     const { error } = await supabaseClient.storage
@@ -37,31 +36,61 @@ async function loadProfile() {
         return;
     }
 
-    const { data } = await supabaseClient
+    // Admins stay in admin panel
+    const { data: admin } = await supabaseClient
+        .from("admins")
+        .select("role")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+    if (admin) {
+        window.location.href = "admin.html";
+        return;
+    }
+
+    const { data, error } = await supabaseClient
         .from("profiles")
         .select("*")
         .eq("id", user.id)
         .single();
 
-    if (data) {
-        document.getElementById("full_name").value = data.full_name || "";
-        document.getElementById("gender").value = data.gender || "";
-        document.getElementById("district").value = data.district || "";
-        document.getElementById("education").value = data.education || "";
-        document.getElementById("occupation").value = data.occupation || "";
-        document.getElementById("phone").value = data.phone || "";
-        document.getElementById("height_cm").value = data.height_cm || "";
-        document.getElementById("marital_status").value = data.marital_status || "";
-        document.getElementById("father_name").value = data.father_name || "";
-        document.getElementById("mother_name").value = data.mother_name || "";
-        document.getElementById("bio").value = data.bio || "";
+    if (error) {
+        alert(error.message);
+        return;
+    }
 
-        if (data.dob)
-            document.getElementById("dob").value = data.dob;
-        if (data.photo_url) {
-            document.getElementById("profilePreview").src = data.photo_url;
-        }
+    // Approved members skip dashboard
+    if (data.status === "approved") {
+        window.location.href = "matches.html";
+        return;
+    }
 
+    // If profile is already completed and still pending,
+    // send them to verification instead of showing the form again.
+    if (data.status === "pending" && data.gender) {
+        window.location.href = "verification.html";
+        return;
+    }
+
+    // Fill the form for new users
+    document.getElementById("full_name").value = data.full_name || "";
+    document.getElementById("gender").value = data.gender || "";
+    document.getElementById("district").value = data.district || "";
+    document.getElementById("education").value = data.education || "";
+    document.getElementById("occupation").value = data.occupation || "";
+    document.getElementById("phone").value = data.phone || "";
+    document.getElementById("height_cm").value = data.height_cm || "";
+    document.getElementById("marital_status").value = data.marital_status || "";
+    document.getElementById("father_name").value = data.father_name || "";
+    document.getElementById("mother_name").value = data.mother_name || "";
+    document.getElementById("bio").value = data.bio || "";
+
+    if (data.dob) {
+        document.getElementById("dob").value = data.dob;
+    }
+
+    if (data.photo_url) {
+        document.getElementById("profilePreview").src = data.photo_url;
     }
 
     document.getElementById("profileForm").addEventListener("submit", async (e) => {
@@ -85,7 +114,8 @@ async function loadProfile() {
                 father_name: document.getElementById("father_name").value,
                 mother_name: document.getElementById("mother_name").value,
                 bio: document.getElementById("bio").value,
-                photo_url: photoUrl || data?.photo_url
+                photo_url: photoUrl || data.photo_url,
+                status: "pending"
             })
             .eq("id", user.id);
 

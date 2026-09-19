@@ -7,7 +7,7 @@ form.addEventListener("submit", async (e) => {
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value;
 
-    // Step 1: Create the login account
+    // Step 1: Create the account
     const { data, error } = await supabaseClient.auth.signUp({
         email,
         password
@@ -18,15 +18,20 @@ form.addEventListener("submit", async (e) => {
         return;
     }
 
-    // Step 2: Create the profile
+    // Make sure a user was created
+    if (!data.user) {
+        alert("Account created. Please verify your email first.");
+        return;
+    }
+
+    // Step 2: Create the linked profile
     const { error: profileError } = await supabaseClient
         .from("profiles")
-        .insert([
-            {
-                full_name: fullName,
-                status: "pending"
-            }
-        ]);
+        .insert({
+            id: data.user.id,
+            full_name: fullName,
+            status: "pending"
+        });
 
     if (profileError) {
         console.error(profileError);
@@ -34,5 +39,6 @@ form.addEventListener("submit", async (e) => {
         return;
     }
 
-    alert("Registration successful!");
+    // Step 3: Go to the dashboard
+    window.location.href = "dashboard.html";
 });
