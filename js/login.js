@@ -16,7 +16,19 @@ loginForm.addEventListener("submit", async (e) => {
         return;
     }
 
-    // Get the user's profile status
+    // Check if this user is an admin
+    const { data: admin } = await supabaseClient
+        .from("admins")
+        .select("role")
+        .eq("user_id", data.user.id)
+        .maybeSingle();
+
+    if (admin) {
+        window.location.href = "admin.html";
+        return;
+    }
+
+    // Normal member flow
     const { data: profile, error: profileError } = await supabaseClient
         .from("profiles")
         .select("status")
@@ -28,7 +40,6 @@ loginForm.addEventListener("submit", async (e) => {
         return;
     }
 
-    // Redirect based on approval status
     if (profile.status === "approved") {
         window.location.href = "matches.html";
     } else {

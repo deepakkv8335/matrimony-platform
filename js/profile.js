@@ -10,6 +10,18 @@ async function loadProfile() {
         return;
     }
 
+    // Block admins
+    const { data: admin } = await supabaseClient
+        .from("admins")
+        .select("role")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+    if (admin) {
+        window.location.href = "admin.html";
+        return;
+    }
+
     const { data: profile, error } = await supabaseClient
         .from("profiles")
         .select("*")

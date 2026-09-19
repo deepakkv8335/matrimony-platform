@@ -9,6 +9,19 @@ async function loadMatches() {
         return;
     }
 
+    // Block admins immediately
+    const { data: admin } = await supabaseClient
+        .from("admins")
+        .select("role")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+    if (admin) {
+        window.location.href = "admin.html";
+        return;
+    }
+
+    // Member profile
     const { data: me, error } = await supabaseClient
         .from("profiles")
         .select("*")
@@ -41,14 +54,12 @@ async function loadMatches() {
     matchesGrid.innerHTML = "";
 
     if (matches.length === 0) {
-
         matchesGrid.innerHTML = `
             <div class="empty-card">
                 <h3>No matches yet</h3>
                 <p>New verified members will appear here.</p>
             </div>
         `;
-
         return;
     }
 
@@ -76,15 +87,12 @@ async function loadMatches() {
         `;
 
         matchesGrid.appendChild(card);
-
     });
 
 }
 
-function viewProfile(profileId){
-
+function viewProfile(profileId) {
     window.location.href = `profile.html?id=${profileId}`;
-
 }
 
 loadMatches();
