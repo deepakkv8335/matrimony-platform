@@ -16,7 +16,7 @@ loginForm.addEventListener("submit", async (e) => {
         return;
     }
 
-    // Check if this user is an admin
+    // Admin goes to admin panel
     const { data: admin } = await supabaseClient
         .from("admins")
         .select("role")
@@ -28,21 +28,6 @@ loginForm.addEventListener("submit", async (e) => {
         return;
     }
 
-    // Normal member flow
-    const { data: profile, error: profileError } = await supabaseClient
-        .from("profiles")
-        .select("status")
-        .eq("id", data.user.id)
-        .single();
-
-    if (profileError) {
-        alert(profileError.message);
-        return;
-    }
-
-    if (profile.status === "approved") {
-        window.location.href = "matches.html";
-    } else {
-        window.location.href = "verification.html";
-    }
+    // Every member goes to dashboard
+    window.location.href = "dashboard.html";
 });
