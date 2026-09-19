@@ -114,16 +114,21 @@ form.addEventListener("submit", async (e) => {
 
 // Live updates
 let pollInterval;
+let loadingMessages = false;
 
 function subscribeRealtime() {
 
-    // Stop previous polling if any
     if (pollInterval) clearInterval(pollInterval);
 
-    // Refresh conversation every 2 seconds
     pollInterval = setInterval(async () => {
+
+        if (loadingMessages) return;
+
+        loadingMessages = true;
         await loadMessages();
-    }, 2000);
+        loadingMessages = false;
+
+    }, 500);
 
 }
 
